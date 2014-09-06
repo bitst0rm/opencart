@@ -330,6 +330,7 @@ function country(element, index, zone_id) {
 				$('.wait').remove();
 			},			
 			success: function(json) {
+				$('.wait').remove();
 				if (json['postcode_required'] == '1') {
 					$('#postcode-required' + index).show();
 				} else {
