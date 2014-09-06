@@ -1019,6 +1019,7 @@ $('select[name=\'config_country_id\']').bind('change', function() {
 			$('.wait').remove();
 		},			
 		success: function(json) {
+			$('.wait').remove();
 			if (json['postcode_required'] == '1') {
 				$('#postcode-required').show();
 			} else {
