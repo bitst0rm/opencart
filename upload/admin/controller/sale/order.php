@@ -1241,6 +1241,7 @@ class ControllerSaleOrder extends Controller {
 
 				if ($product_info && $product_info['shipping']) {
 					$shipping = true;
+					break;
 				}
 			}
 		}
