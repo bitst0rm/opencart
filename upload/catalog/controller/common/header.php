@@ -84,7 +84,7 @@ class ControllerCommonHeader extends Controller {
 			$stores = $this->model_setting_store->getStores();
 
 			foreach ($stores as $store) {
-				$this->data['stores'][] = $store['url'] . 'catalog/view/javascript/crossdomain.php?session_id=' . $this->session->getId();
+				$this->data['stores'][] = $this->config->get('config_secure') ? $store['ssl'] : $store['url'] . 'catalog/view/javascript/crossdomain.php?session_id=' . $this->session->getId();
 			}
 		}
 

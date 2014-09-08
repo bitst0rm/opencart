@@ -116,7 +116,7 @@ class ControllerSettingStore extends Controller {
 		$this->data['stores'][] = array(
 			'store_id' => 0,
 			'name'     => $this->config->get('config_name') . $this->language->get('text_default'),
-			'url'      => HTTP_CATALOG,
+			'url'      => $this->config->get('config_secure') ? HTTPS_CATALOG : HTTP_CATALOG,
 			'selected' => isset($this->request->post['selected']) && in_array(0, $this->request->post['selected']),
 			'action'   => $action
 		);
@@ -136,7 +136,7 @@ class ControllerSettingStore extends Controller {
 			$this->data['stores'][] = array(
 				'store_id' => $result['store_id'],
 				'name'     => $result['name'],
-				'url'      => $result['url'],
+				'url'      => $this->config->get('config_secure') ? $result['ssl'] : $result['url'],
 				'selected' => isset($this->request->post['selected']) && in_array($result['store_id'], $this->request->post['selected']),
 				'action'   => $action
 			);

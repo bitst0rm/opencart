@@ -7,10 +7,10 @@ class ModelSaleOrder extends Model {
 
 		if ($store_info) {
 			$store_name = $store_info['name'];
-			$store_url = $store_info['url'];
+			$store_url = $this->config->get('config_secure') ? $store_info['ssl'] : $store_info['url'];
 		} else {
 			$store_name = $this->config->get('config_name');
-			$store_url = HTTP_CATALOG;
+			$store_url = $this->config->get('config_secure') ? HTTPS_CATALOG : HTTP_CATALOG;
 		}
 
 		$this->load->model('setting/setting');
