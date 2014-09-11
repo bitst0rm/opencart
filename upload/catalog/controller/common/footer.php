@@ -26,18 +26,18 @@ class ControllerCommonFooter extends Controller {
 			if ($result['bottom']) {
 				$this->data['informations'][] = array(
 					'title' => $result['title'],
-					'href'  => $this->url->link('information/information', 'information_id=' . $result['information_id'])
+					'href'  => $this->url->link('information/information', 'information_id=' . $result['information_id'], 'SSL')
 				);
 			}
 		}
 
-		$this->data['contact'] = $this->url->link('information/contact');
+		$this->data['contact'] = $this->url->link('information/contact', '', 'SSL');
 		$this->data['return'] = $this->url->link('account/return/insert', '', 'SSL');
-		$this->data['sitemap'] = $this->url->link('information/sitemap');
-		$this->data['manufacturer'] = $this->url->link('product/manufacturer');
+		$this->data['sitemap'] = $this->url->link('information/sitemap', '', 'SSL');
+		$this->data['manufacturer'] = $this->url->link('product/manufacturer', '', 'SSL');
 		$this->data['voucher'] = $this->url->link('account/voucher', '', 'SSL');
 		$this->data['affiliate'] = $this->url->link('affiliate/account', '', 'SSL');
-		$this->data['special'] = $this->url->link('product/special');
+		$this->data['special'] = $this->url->link('product/special', '', 'SSL');
 		$this->data['account'] = $this->url->link('account/account', '', 'SSL');
 		$this->data['order'] = $this->url->link('account/order', '', 'SSL');
 		$this->data['wishlist'] = $this->url->link('account/wishlist', '', 'SSL');

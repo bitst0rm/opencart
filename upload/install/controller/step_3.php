@@ -79,7 +79,7 @@ class ControllerStep3 extends Controller {
 
 			fclose($file);
 
-			$this->redirect($this->url->link('step_4'));
+			$this->redirect($this->url->link('step_4', '', 'SSL'));
 		}
 
 		if (isset($this->error['warning'])) {
@@ -136,7 +136,7 @@ class ControllerStep3 extends Controller {
 			$this->data['error_email'] = '';
 		}
 
-		$this->data['action'] = $this->url->link('step_3');
+		$this->data['action'] = $this->url->link('step_3', '', 'SSL');
 
 		if (isset($this->request->post['db_driver'])) {
 			$this->data['db_driver'] = $this->request->post['db_driver'];
@@ -192,7 +192,7 @@ class ControllerStep3 extends Controller {
 			$this->data['email'] = '';
 		}
 
-		$this->data['back'] = $this->url->link('step_2');
+		$this->data['back'] = $this->url->link('step_2', '', 'SSL');
 
 		$this->template = 'step_3.tpl';
 		$this->children = array(

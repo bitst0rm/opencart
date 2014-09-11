@@ -380,7 +380,7 @@ class ControllerPaymentPPPayflowIframe extends Controller {
 
 					$actions[] = array(
 						'title' => $this->language->get('text_capture'),
-						'href' => $this->url->link('payment/pp_payflow_iframe/refund', 'transaction_reference=' . $result['PNREF'] . '&token=' . $this->session->data['token']),
+						'href' => $this->url->link('payment/pp_payflow_iframe/refund', 'transaction_reference=' . $result['PNREF'] . '&token=' . $this->session->data['token'], 'SSL'),
 					);
 
 					$json['success'] = array(
@@ -503,7 +503,7 @@ class ControllerPaymentPPPayflowIframe extends Controller {
 
 						$actions[] = array(
 							'title' => $this->language->get('text_refund'),
-							'href' => $this->url->link('payment/pp_payflow_iframe/refund', 'transaction_reference=' . $transaction['transaction_reference'] . '&token=' . $this->session->data['token']),
+							'href' => $this->url->link('payment/pp_payflow_iframe/refund', 'transaction_reference=' . $transaction['transaction_reference'] . '&token=' . $this->session->data['token'], 'SSL'),
 						);
 
 						break;
@@ -512,7 +512,7 @@ class ControllerPaymentPPPayflowIframe extends Controller {
 
 						$actions[] = array(
 							'title' => $this->language->get('text_refund'),
-							'href' => $this->url->link('payment/pp_payflow_iframe/refund', 'transaction_reference=' . $transaction['transaction_reference'] . '&token=' . $this->session->data['token']),
+							'href' => $this->url->link('payment/pp_payflow_iframe/refund', 'transaction_reference=' . $transaction['transaction_reference'] . '&token=' . $this->session->data['token'], 'SSL'),
 						);
 
 						break;

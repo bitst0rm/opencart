@@ -34,7 +34,7 @@ class ControllerCommonMaintenance extends Controller {
 
 		$this->document->breadcrumbs[] = array(
 			'text'      => $this->language->get('text_maintenance'),
-			'href'      => $this->url->link('common/maintenance'),
+			'href'      => $this->url->link('common/maintenance', '', 'SSL'),
 			'separator' => false
 		);
 

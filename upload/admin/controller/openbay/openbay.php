@@ -88,7 +88,7 @@ class ControllerOpenbayOpenbay extends Controller {
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
 			$this->model_setting_setting->editSetting('openbay', $this->request->post);
 			$this->session->data['success'] = $this->language->get('lang_text_success');
-			$this->redirect($this->url->link('openbay/openbay&token=' . $this->session->data['token']));
+			$this->redirect($this->url->link('openbay/openbay&token=' . $this->session->data['token'], '', 'SSL'));
 		}
 
 		$this->document->setTitle($this->language->get('lang_heading_title'));
@@ -1258,7 +1258,7 @@ class ControllerOpenbayOpenbay extends Controller {
 
 				if(empty($setting['dispatch_times']) || empty($setting['countries']) || empty($setting['returns'])){
 					$this->session->data['warning'] = $this->language->get('lang_error_missing_settings');
-					$this->redirect($this->url->link('openbay/openbay/viewSync&token=' . $this->session->data['token'], 'SSL'));
+					$this->redirect($this->url->link('openbay/openbay/viewSync&token=' . $this->session->data['token'], '', 'SSL'));
 				}
 
 				$this->data['setting'] = $setting;
@@ -1370,7 +1370,7 @@ class ControllerOpenbayOpenbay extends Controller {
 
 				$this->response->setOutput($this->render(true), $this->config->get('config_compression'));
 			} else {
-				$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token']));
+				$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token'], '', 'SSL'));
 			}
 		}
 	}
@@ -1451,7 +1451,7 @@ class ControllerOpenbayOpenbay extends Controller {
 
 							if(empty($setting['dispatch_times']) || empty($setting['countries']) || empty($setting['returns'])){
 								$this->session->data['warning'] = $this->language->get('lang_error_missing_settings');
-								$this->redirect($this->url->link('openbay/openbay/viewSync&token=' . $this->session->data['token'], 'SSL'));
+								$this->redirect($this->url->link('openbay/openbay/viewSync&token=' . $this->session->data['token'], '', 'SSL'));
 							}
 
 							$this->data['setting'] = $setting;
@@ -1532,7 +1532,7 @@ class ControllerOpenbayOpenbay extends Controller {
 				);
 				$this->response->setOutput($this->render(true), $this->config->get('config_compression'));
 			}else{
-				$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token']));
+				$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token'], '', 'SSL'));
 			}
 		}
 	}
@@ -1590,7 +1590,7 @@ class ControllerOpenbayOpenbay extends Controller {
 				}
 			}
 		} else {
-			$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token']));
+			$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token'], '', 'SSL'));
 		}
 	}
 
@@ -1757,7 +1757,7 @@ class ControllerOpenbayOpenbay extends Controller {
 				$this->response->setOutput(json_encode($json));
 			}
 		} else {
-			$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token']));
+			$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token'], '', 'SSL'));
 		}
 	}
 
@@ -1804,7 +1804,7 @@ class ControllerOpenbayOpenbay extends Controller {
 
 			$this->response->setOutput(json_encode($json));
 		} else {
-			$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token']));
+			$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token'], '', 'SSL'));
 		}
 	}
 
@@ -1970,7 +1970,7 @@ class ControllerOpenbayOpenbay extends Controller {
 				$this->response->setOutput(json_encode($json));
 			}
 		} else {
-			$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token']));
+			$this->redirect($this->url->link('extension/openbay/itemList&token=' . $this->session->data['token'], '', 'SSL'));
 		}
 	}
 

@@ -3,7 +3,7 @@ class ControllerCheckoutCheckout extends Controller {
 	public function index() {
 		// Validate cart has products and has stock.
 		if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-			$this->redirect($this->url->link('checkout/cart'));
+			$this->redirect($this->url->link('checkout/cart', '', 'SSL'));
 		}
 
 		// Validate minimum quantity requirments.			
@@ -19,7 +19,7 @@ class ControllerCheckoutCheckout extends Controller {
 			}		
 
 			if ($product['minimum'] > $product_total) {
-				$this->redirect($this->url->link('checkout/cart'));
+				$this->redirect($this->url->link('checkout/cart', '', 'SSL'));
 			}				
 		}
 
@@ -33,13 +33,13 @@ class ControllerCheckoutCheckout extends Controller {
 
 		$this->data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('text_home'),
-			'href'      => $this->url->link('common/home'),
+			'href'      => $this->url->link('common/home', '', 'SSL'),
 			'separator' => false
 		);
 
 		$this->data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('text_cart'),
-			'href'      => $this->url->link('checkout/cart'),
+			'href'      => $this->url->link('checkout/cart', '', 'SSL'),
 			'separator' => $this->language->get('text_separator')
 		);
 

@@ -9,7 +9,7 @@ class ControllerErrorNotFound extends Controller {
 
 		$this->data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('text_home'),
-			'href'      => $this->url->link('common/home'),
+			'href'      => $this->url->link('common/home', '', 'SSL'),
 			'separator' => false
 		);
 
@@ -49,7 +49,7 @@ class ControllerErrorNotFound extends Controller {
 
 		$this->response->addheader($this->request->server['SERVER_PROTOCOL'] . ' 404 not found');
 
-		$this->data['continue'] = $this->url->link('common/home');
+		$this->data['continue'] = $this->url->link('common/home', '', 'SSL');
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/error/not_found.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/error/not_found.tpl';
