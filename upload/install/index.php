@@ -6,6 +6,10 @@ error_reporting(E_ALL);
 define('HTTP_SERVER', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/.\\') . '/');
 define('HTTP_OPENCART', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(rtrim(dirname($_SERVER['SCRIPT_NAME']), 'install'), '/.\\'). '/');
 
+// HTTPS
+define('HTTPS_SERVER', 'https://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['SCRIPT_NAME']), '/.\\') . '/');
+define('HTTPS_OPENCART', 'https://' . $_SERVER['HTTP_HOST'] . rtrim(rtrim(dirname($_SERVER['SCRIPT_NAME']), 'install'), '/.\\'). '/');
+
 // DIR
 define('DIR_APPLICATION', str_replace('\'', '/', realpath(dirname(__FILE__))) . '/');
 define('DIR_SYSTEM', str_replace('\'', '/', realpath(dirname(__FILE__) . '/../')) . '/system/');
@@ -26,7 +30,7 @@ $loader = new Loader($registry);
 $registry->set('load', $loader);
 
 // Url
-$url = new Url(HTTP_SERVER);
+$url = new Url($_SERVER['HTTPS'] ? HTTPS_SERVER : HTTP_SERVER);
 $registry->set('url', $url);
 
 // Request

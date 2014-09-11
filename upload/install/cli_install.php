@@ -13,10 +13,10 @@
 //                               --db_user root \
 //                               --db_password pass \
 //                               --db_name opencart \
+//                               --db_driver mysqli \
 //                               --username admin \
 //                               --password admin \
 //                               --email youremail@example.com \
-//                               --agree_tnc yes \
 //                               --http_server http://localhost/opencart
 //
 
@@ -58,28 +58,28 @@ function usage() {
 	echo "Usage:\n";
 	echo "======\n";
 	echo "\n";
-	$options = implode(" ", array('--db_driver', 'mysqli',
-								'--db_host', 'localhost',
-								'--db_user', 'root',
-								'--db_password', 'pass',
-								'--db_name', 'opencart',
-								'--username', 'admin',
-								'--password', 'admin',
-								'--email', 'youremail@example.com',
-								'--agree_tnc', 'yes',
-								'--http_server', 'http://localhost/opencart'));
+	$options = implode(" ", array(
+		'--db_host', 'localhost',
+		'--db_user', 'root',
+		'--db_password', 'pass',
+		'--db_name', 'opencart',
+		'--db_driver', 'mysqli',
+		'--username', 'admin',
+		'--password', 'admin',
+		'--email', 'youremail@example.com',
+		'--http_server', 'http://localhost/opencart'
+	));
 	echo 'php cli_install.php install ' . $options . "\n\n";
 }
 
 
 function get_options($argv) {
 	$defaults = array(
-		'db_driver' => 'mysqli',
 		'db_host' => 'localhost',
 		'db_name' => 'opencart',
-		'db_prefix' => '',
+		'db_prefix' => 'oc_',
+		'db_driver' => 'mysqli',
 		'username' => 'admin',
-		'agree_tnc' => 'no',
 	);
 
 	$options = array();
@@ -97,7 +97,6 @@ function get_options($argv) {
 
 function valid($options) {
 	$required = array(
-		'db_driver',
 		'db_host',
 		'db_user',
 		'db_password',
@@ -106,7 +105,6 @@ function valid($options) {
 		'username',
 		'password',
 		'email',
-		'agree_tnc',
 		'http_server',
 	);
 	$missing = array();
@@ -115,10 +113,7 @@ function valid($options) {
 			$missing[] = $r;
 		}
 	}
-	if ($options['agree_tnc'] !== 'yes') {
-		$missing[] = 'agree_tnc (should be yes)';
-	}
-	$valid = count($missing) === 0 && $options['agree_tnc'] === 'yes';
+	$valid = count($missing) === 0;
 	return array($valid, $missing);
 }
 
@@ -126,7 +121,7 @@ function valid($options) {
 function install($options) {
 	$check = check_requirements();
 	if ($check[0]) {
-		setup_mysql($options);
+		setup_db($options);
 		write_config_files($options);
 		dir_permissions();
 	} else {
@@ -150,8 +145,8 @@ function check_requirements() {
 		$error = 'Warning: OpenCart will not work with session.auto_start enabled!';
 	}
 
-	if (!extension_loaded('mysql')) {
-		$error = 'Warning: MySQL extension needs to be loaded for OpenCart to work!';
+	if (!extension_loaded('mysqli')) {
+		$error = 'Warning: MySQLi extension needs to be loaded for OpenCart to work!';
 	}
 
 	if (!extension_loaded('gd')) {
@@ -206,7 +201,7 @@ function check_requirements() {
 }
 
 
-function setup_mysql($dbdata) {
+function setup_db($dbdata) {
 	global $loader, $registry;
 	$loader->model('install');
 	$model = $registry->get('model_install');
@@ -217,17 +212,14 @@ function setup_mysql($dbdata) {
 function write_config_files($options) {
 	$output  = '<?php' . "\n";
 	$output .= '// HTTP' . "\n";
-	$output .= 'define(\'HTTP_SERVER\', \'' . $options['http_server'] . '\');' . "\n";
-	$output .= 'define(\'HTTP_IMAGE\', \'' . $options['http_server'] . 'image/\');' . "\n";
-	$output .= 'define(\'HTTP_ADMIN\', \'' . $options['http_server'] . 'admin/\');' . "\n\n";
+	$output .= 'define(\'HTTP_SERVER\', \'' . preg_replace("/^https:/i", "http:", $options['http_server']) . '\');' . "\n\n";
 
 	$output .= '// HTTPS' . "\n";
-	$output .= 'define(\'HTTPS_SERVER\', \'' . $options['http_server'] . '\');' . "\n";
-	$output .= 'define(\'HTTPS_IMAGE\', \'' . $options['http_server'] . 'image/\');' . "\n\n";
+	$output .= 'define(\'HTTPS_SERVER\', \'' . preg_replace("/^http:/i", "https:", $options['http_server']) . '\');' . "\n\n";
 
 	$output .= '// DIR' . "\n";
 	$output .= 'define(\'DIR_APPLICATION\', \'' . DIR_OPENCART . 'catalog/\');' . "\n";
-	$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_OPENCART. 'system/\');' . "\n";
+	$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_OPENCART . 'system/\');' . "\n";
 	$output .= 'define(\'DIR_DATABASE\', \'' . DIR_OPENCART . 'system/database/\');' . "\n";
 	$output .= 'define(\'DIR_LANGUAGE\', \'' . DIR_OPENCART . 'catalog/language/\');' . "\n";
 	$output .= 'define(\'DIR_TEMPLATE\', \'' . DIR_OPENCART . 'catalog/view/theme/\');' . "\n";
@@ -238,7 +230,7 @@ function write_config_files($options) {
 	$output .= 'define(\'DIR_LOGS\', \'' . DIR_OPENCART . 'system/logs/\');' . "\n\n";
 
 	$output .= '// DB' . "\n";
-	$output .= 'define(\'DB_DRIVER\', \'mysql\');' . "\n";
+	$output .= 'define(\'DB_DRIVER\', \'' . addslashes($options['db_driver']) . '\');' . "\n";
 	$output .= 'define(\'DB_HOSTNAME\', \'' . addslashes($options['db_host']) . '\');' . "\n";
 	$output .= 'define(\'DB_USERNAME\', \'' . addslashes($options['db_user']) . '\');' . "\n";
 	$output .= 'define(\'DB_PASSWORD\', \'' . addslashes($options['db_password']) . '\');' . "\n";
@@ -254,14 +246,12 @@ function write_config_files($options) {
 
 	$output  = '<?php' . "\n";
 	$output .= '// HTTP' . "\n";
-	$output .= 'define(\'HTTP_SERVER\', \'' . $options['http_server'] . 'admin/\');' . "\n";
-	$output .= 'define(\'HTTP_CATALOG\', \'' . $options['http_server'] . '\');' . "\n";
-	$output .= 'define(\'HTTP_IMAGE\', \'' . $options['http_server'] . 'image/\');' . "\n\n";
+	$output .= 'define(\'HTTP_SERVER\', \'' . preg_replace("/^https:/i", "http:", $options['http_server']) . 'admin/\');' . "\n";
+	$output .= 'define(\'HTTP_CATALOG\', \'' . preg_replace("/^https:/i", "http:", $options['http_server']) . '\');' . "\n\n";
 
 	$output .= '// HTTPS' . "\n";
-	$output .= 'define(\'HTTPS_SERVER\', \'' . $options['http_server'] . 'admin/\');' . "\n";
-	$output .= 'define(\'HTTPS_CATALOG\', \'' . $options['http_server'] . '\');' . "\n";
-	$output .= 'define(\'HTTPS_IMAGE\', \'' . $options['http_server'] . 'image/\');' . "\n\n";
+	$output .= 'define(\'HTTPS_SERVER\', \'' . preg_replace("/^http:/i", "https:", $options['http_server']) . 'admin/\');' . "\n";
+	$output .= 'define(\'HTTPS_CATALOG\', \'' . preg_replace("/^http:/i", "https:", $options['http_server']) . '\');' . "\n\n";
 
 	$output .= '// DIR' . "\n";
 	$output .= 'define(\'DIR_APPLICATION\', \'' . DIR_OPENCART . 'admin/\');' . "\n";
@@ -277,7 +267,7 @@ function write_config_files($options) {
 	$output .= 'define(\'DIR_CATALOG\', \'' . DIR_OPENCART . 'catalog/\');' . "\n\n";
 
 	$output .= '// DB' . "\n";
-	$output .= 'define(\'DB_DRIVER\', \'mysql\');' . "\n";
+	$output .= 'define(\'DB_DRIVER\', \'' . addslashes($options['db_driver']) . '\');' . "\n";
 	$output .= 'define(\'DB_HOSTNAME\', \'' . addslashes($options['db_host']) . '\');' . "\n";
 	$output .= 'define(\'DB_USERNAME\', \'' . addslashes($options['db_user']) . '\');' . "\n";
 	$output .= 'define(\'DB_PASSWORD\', \'' . addslashes($options['db_password']) . '\');' . "\n";
@@ -314,11 +304,15 @@ switch ($subcommand) {
 case "install":
 	try {
 		$options = get_options($argv);
-		define('HTTP_OPENCART', $options['http_server']);
+		if (!preg_match('#/$#', $options['http_server'])) {
+			$options['http_server'] = $options['http_server'] . '/';
+		}
+		define('HTTP_OPENCART', preg_replace("/^https:/i", "http:", $options['http_server']));
+		define('HTTPS_OPENCART', preg_replace("/^http:/i", "https:", $options['http_server']));
 		$valid = valid($options);
 		if (!$valid[0]) {
 			echo "FAILED! Following inputs were missing or invalid: ";
-			echo implode(', ',  $valid[1]) . "\n\n";
+			echo implode(', ', $valid[1]) . "\n\n";
 			exit(1);
 		}
 		install($options);
@@ -334,4 +328,5 @@ case "usage":
 default:
 	echo usage();
 }
+
 ?>

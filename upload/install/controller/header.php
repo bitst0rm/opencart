@@ -7,7 +7,7 @@ class ControllerHeader extends Controller {
 		$this->data['styles'] = $this->document->getStyles();
 		$this->data['scripts'] = $this->document->getScripts();		
 		
-		$this->data['base'] = HTTP_SERVER;
+		$this->data['base'] = $_SERVER['HTTPS'] ? HTTPS_SERVER : HTTP_SERVER;
 		
 		$this->template = 'header.tpl';
 
