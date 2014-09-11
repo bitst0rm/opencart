@@ -228,7 +228,7 @@ class ControllerPaymentSagepayDirect extends Controller {
 			$json['ACSURL'] = $data['ACSURL'];
 			$json['MD'] = $data['MD'];
 			$json['PaReq'] = $data['PAReq'];
-			$json['TermUrl'] = $this->url->link('payment/sagepay_direct/callback');
+			$json['TermUrl'] = $this->url->link('payment/sagepay_direct/callback', '', 'SSL');
 		} elseif ($data['Status'] == 'OK' || $data['Status'] == 'AUTHENTICATED' || $data['Status'] == 'REGISTERED') {
 			$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('config_order_status_id'));
 
@@ -264,7 +264,7 @@ class ControllerPaymentSagepayDirect extends Controller {
 
 			$this->model_checkout_order->update($this->session->data['order_id'], $this->config->get('sagepay_direct_order_status_id'), $message, false);
 
-			$json['success'] = $this->url->link('checkout/success'); 			
+			$json['success'] = $this->url->link('checkout/success', '', 'SSL'); 			
 		} else {
 			$json['error'] = $data['StatusDetail'];
 		}
@@ -346,7 +346,7 @@ class ControllerPaymentSagepayDirect extends Controller {
 
 				$this->model_checkout_order->update($this->session->data['order_id'], $this->config->get('sagepay_direct_order_status_id'), $message, false);	
 
-				$this->redirect($this->url->link('checkout/success'));
+				$this->redirect($this->url->link('checkout/success', '', 'SSL'));
 			} else {
 				$this->session->data['error'] = $data['StatusDetail'];
 

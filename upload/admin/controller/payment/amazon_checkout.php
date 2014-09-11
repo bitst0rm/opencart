@@ -261,7 +261,7 @@ class ControllerPaymentAmazonCheckout extends Controller {
 		$this->data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
 
 		$this->data['errors'] = $this->errors;
-		$this->data['cancel'] = $this->url->link('extension/payment', 'token=' . $this->session->data['token']);
+		$this->data['cancel'] = $this->url->link('extension/payment', 'token=' . $this->session->data['token'], 'SSL');
 
 		$this->data['button_colours'] = array(
 			'orange' => $this->language->get('text_orange'),

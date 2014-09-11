@@ -100,10 +100,10 @@ class ControllerPaymentTwoCheckout extends Controller {
 
 			echo '<html>' . "\n";
 			echo '<head>' . "\n";
-			echo '  <meta http-equiv="Refresh" content="0; url=' . $this->url->link('checkout/success') . '">' . "\n";
+			echo '  <meta http-equiv="Refresh" content="0; url=' . $this->url->link('checkout/success', '', 'SSL') . '">' . "\n";
 			echo '</head>'. "\n";
 			echo '<body>' . "\n";
-			echo '  <p>Please follow <a href="' . $this->url->link('checkout/success') . '">link</a>!</p>' . "\n";
+			echo '  <p>Please follow <a href="' . $this->url->link('checkout/success', '', 'SSL') . '">link</a>!</p>' . "\n";
 			echo '</body>' . "\n";
 			echo '</html>' . "\n";
 			exit();

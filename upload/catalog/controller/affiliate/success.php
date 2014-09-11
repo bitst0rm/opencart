@@ -9,7 +9,7 @@ class ControllerAffiliateSuccess extends Controller {
 
 		$this->data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('text_home'),
-			'href'      => $this->url->link('common/home'),       	
+			'href'      => $this->url->link('common/home', '', 'SSL'),       	
 			'separator' => false
 		);
 
@@ -21,13 +21,13 @@ class ControllerAffiliateSuccess extends Controller {
 
 		$this->data['breadcrumbs'][] = array(
 			'text'      => $this->language->get('text_success'),
-			'href'      => $this->url->link('affiliate/success'),
+			'href'      => $this->url->link('affiliate/success', '', 'SSL'),
 			'separator' => $this->language->get('text_separator')
 		);
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
-		$this->data['text_message'] = sprintf($this->language->get('text_approval'), $this->config->get('config_name'), $this->url->link('information/contact'));
+		$this->data['text_message'] = sprintf($this->language->get('text_approval'), $this->config->get('config_name'), $this->url->link('information/contact', '', 'SSL'));
 
 		$this->data['button_continue'] = $this->language->get('button_continue');
 

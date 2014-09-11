@@ -51,11 +51,11 @@ class ControllerCommonHeader extends Controller {
 		$this->data['text_account'] = $this->language->get('text_account');
 		$this->data['text_checkout'] = $this->language->get('text_checkout');
 
-		$this->data['home'] = $this->url->link('common/home');
+		$this->data['home'] = $this->url->link('common/home', '', 'SSL');
 		$this->data['wishlist'] = $this->url->link('account/wishlist', '', 'SSL');
 		$this->data['logged'] = $this->customer->isLogged();
 		$this->data['account'] = $this->url->link('account/account', '', 'SSL');
-		$this->data['shopping_cart'] = $this->url->link('checkout/cart');
+		$this->data['shopping_cart'] = $this->url->link('checkout/cart', '', 'SSL');
 		$this->data['checkout'] = $this->url->link('checkout/checkout', '', 'SSL');
 
 		// Daniel's robot detector
@@ -125,7 +125,7 @@ class ControllerCommonHeader extends Controller {
 
 					$children_data[] = array(
 						'name'  => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $product_total . ')' : ''),
-						'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])
+						'href'  => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'], 'SSL')
 					);						
 				}
 
@@ -134,7 +134,7 @@ class ControllerCommonHeader extends Controller {
 					'name'     => $category['name'],
 					'children' => $children_data,
 					'column'   => $category['column'] ? $category['column'] : 1,
-					'href'     => $this->url->link('product/category', 'path=' . $category['category_id'])
+					'href'     => $this->url->link('product/category', 'path=' . $category['category_id'], 'SSL')
 				);
 			}
 		}

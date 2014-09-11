@@ -15,12 +15,12 @@ class ControllerModuleInformation extends Controller {
 		foreach ($this->model_catalog_information->getInformations() as $result) {
 			$this->data['informations'][] = array(
 				'title' => $result['title'],
-				'href'  => $this->url->link('information/information', 'information_id=' . $result['information_id'])
+				'href'  => $this->url->link('information/information', 'information_id=' . $result['information_id'], 'SSL')
 			);
 		}
 
-		$this->data['contact'] = $this->url->link('information/contact');
-		$this->data['sitemap'] = $this->url->link('information/sitemap');
+		$this->data['contact'] = $this->url->link('information/contact', '', 'SSL');
+		$this->data['sitemap'] = $this->url->link('information/sitemap', '', 'SSL');
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/information.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/module/information.tpl';

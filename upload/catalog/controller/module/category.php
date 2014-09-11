@@ -59,7 +59,7 @@ class ControllerModuleCategory extends Controller {
 				$children_data[] = array(
 					'category_id' => $child['category_id'],
 					'name'        => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $product_total . ')' : ''),
-					'href'        => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])	
+					'href'        => $this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'], 'SSL')	
 				);		
 			}
 
@@ -67,7 +67,7 @@ class ControllerModuleCategory extends Controller {
 				'category_id' => $category['category_id'],
 				'name'        => $category['name'] . ($this->config->get('config_product_count') ? ' (' . $total . ')' : ''),
 				'children'    => $children_data,
-				'href'        => $this->url->link('product/category', 'path=' . $category['category_id'])
+				'href'        => $this->url->link('product/category', 'path=' . $category['category_id'], 'SSL')
 			);	
 		}
 

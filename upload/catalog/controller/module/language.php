@@ -7,7 +7,7 @@ class ControllerModuleLanguage extends Controller {
 			if (isset($this->request->post['redirect'])) {
 				$this->redirect($this->request->post['redirect']);
 			} else {
-				$this->redirect($this->url->link('common/home'));
+				$this->redirect($this->url->link('common/home', '', 'SSL'));
 			}
 		}
 
@@ -42,7 +42,7 @@ class ControllerModuleLanguage extends Controller {
 		}
 
 		if (!isset($this->request->get['route'])) {
-			$this->data['redirect'] = $this->url->link('common/home');
+			$this->data['redirect'] = $this->url->link('common/home', '', 'SSL');
 		} else {
 			$data = $this->request->get;
 

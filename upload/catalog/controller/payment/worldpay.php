@@ -59,7 +59,7 @@ class ControllerPaymentWorldPay extends Controller {
 
 		$this->data['text_response'] = $this->language->get('text_response');
 		$this->data['text_success'] = $this->language->get('text_success');
-		$this->data['text_success_wait'] = sprintf($this->language->get('text_success_wait'), $this->url->link('checkout/success'));
+		$this->data['text_success_wait'] = sprintf($this->language->get('text_success_wait'), $this->url->link('checkout/success', '', 'SSL'));
 		$this->data['text_failure'] = $this->language->get('text_failure');
 		$this->data['text_failure_wait'] = sprintf($this->language->get('text_failure_wait'), $this->url->link('checkout/checkout', '', 'SSL'));
 
@@ -109,7 +109,7 @@ class ControllerPaymentWorldPay extends Controller {
 
 			$this->model_checkout_order->update($this->request->post['cartId'], $this->config->get('worldpay_order_status_id'), $message, false);
 
-			$this->data['continue'] = $this->url->link('checkout/success');
+			$this->data['continue'] = $this->url->link('checkout/success', '', 'SSL');
 
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/worldpay_success.tpl')) {
 				$this->template = $this->config->get('config_template') . '/template/payment/worldpay_success.tpl';
@@ -119,7 +119,7 @@ class ControllerPaymentWorldPay extends Controller {
 
 			$this->response->setOutput($this->render());				
 		} else {
-			$this->data['continue'] = $this->url->link('checkout/cart');
+			$this->data['continue'] = $this->url->link('checkout/cart', '', 'SSL');
 
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/worldpay_failure.tpl')) {
 				$this->template = $this->config->get('config_template') . '/template/payment/worldpay_failure.tpl';

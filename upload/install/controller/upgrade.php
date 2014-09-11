@@ -8,7 +8,7 @@ class ControllerUpgrade extends Controller {
 
 			$this->model_upgrade->mysql();
 
-			$this->redirect($this->url->link('upgrade/success'));
+			$this->redirect($this->url->link('upgrade/success', '', 'SSL'));
 		}		
 
 		if (isset($this->error['warning'])) {
@@ -17,7 +17,7 @@ class ControllerUpgrade extends Controller {
 			$this->data['error_warning'] = '';
 		}
 
-		$this->data['action'] = $this->url->link('upgrade');
+		$this->data['action'] = $this->url->link('upgrade', '', 'SSL');
 
 		$this->template = 'upgrade.tpl';
 		$this->children = array(

@@ -31,7 +31,7 @@ class ControllerPaymentPaymate extends Controller {
 		$this->data['regindi_state'] = html_entity_decode($order_info['payment_zone'], ENT_QUOTES, 'UTF-8');
 		$this->data['regindi_pcode'] = html_entity_decode($order_info['payment_postcode'], ENT_QUOTES, 'UTF-8');
 
-		$this->data['return'] = $this->url->link('payment/paymate/callback', 'hash=' . md5($order_info['order_id'] . $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false) . $order_info['currency_code'] . $this->config->get('paymate_password')));
+		$this->data['return'] = $this->url->link('payment/paymate/callback', 'hash=' . md5($order_info['order_id'] . $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false) . $order_info['currency_code'] . $this->config->get('paymate_password')), 'SSL');
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/paymate.tpl')) {
 			$this->template = $this->config->get('config_template') . '/template/payment/paymate.tpl';
@@ -73,13 +73,13 @@ class ControllerPaymentPaymate extends Controller {
 			$this->data['breadcrumbs'] = array();
 
 			$this->data['breadcrumbs'][] = array(
-				'href'      => $this->url->link('common/home'),
+				'href'      => $this->url->link('common/home', '', 'SSL'),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 			);
 
 			$this->data['breadcrumbs'][] = array(
-				'href'      => $this->url->link('checkout/cart'),
+				'href'      => $this->url->link('checkout/cart', '', 'SSL'),
 				'text'      => $this->language->get('text_basket'),
 				'separator' => $this->language->get('text_separator')
 			);
@@ -91,18 +91,18 @@ class ControllerPaymentPaymate extends Controller {
 			);
 
 			$this->data['breadcrumbs'][] = array(
-				'href'      => $this->url->link('checkout/success'),
+				'href'      => $this->url->link('checkout/success', '', 'SSL'),
 				'text'      => $this->language->get('text_failed'),
 				'separator' => $this->language->get('text_separator')
 			);
 
 			$this->data['heading_title'] = $this->language->get('text_failed');
 
-			$this->data['text_message'] = sprintf($this->language->get('text_failed_message'), $error, $this->url->link('information/contact'));
+			$this->data['text_message'] = sprintf($this->language->get('text_failed_message'), $error, $this->url->link('information/contact', '', 'SSL'));
 
 			$this->data['button_continue'] = $this->language->get('button_continue');
 
-			$this->data['continue'] = $this->url->link('common/home');
+			$this->data['continue'] = $this->url->link('common/home', '', 'SSL');
 
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/success.tpl')) {
 				$this->template = $this->config->get('config_template') . '/template/common/success.tpl';
@@ -123,7 +123,7 @@ class ControllerPaymentPaymate extends Controller {
 		} else {
 			$this->model_checkout_order->confirm($order_id, $this->config->get('paymate_order_status_id'));
 
-			$this->redirect($this->url->link('checkout/success'));			
+			$this->redirect($this->url->link('checkout/success', '', 'SSL'));			
 		}		
 	}
 }
