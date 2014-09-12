@@ -156,12 +156,16 @@ class ModelSaleCustomer extends Model {
 
 			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
 
+			$this->load->model('setting/setting');
+
+			$store = $this->model_setting_setting->getSetting('config', $customer_info['store_id']);
+
 			if ($store_info) {
 				$store_name = $store_info['name'];
-				$store_url = $store_info['url'] . 'index.php?route=account/login';
+				$store_url = $store['config_secure'] ? $store_info['ssl'] : $store_info['url'] . 'index.php?route=account/login';
 			} else {
 				$store_name = $this->config->get('config_name');
-				$store_url = HTTP_CATALOG . 'index.php?route=account/login';
+				$store_url = $this->config->get('config_secure') ? HTTPS_CATALOG : HTTP_CATALOG . 'index.php?route=account/login';
 			}
 
 			$message  = sprintf($this->language->get('text_approve_welcome'), $store_name) . "\n\n";

@@ -321,7 +321,7 @@ class ControllerOpenbayAmazonProduct extends Controller {
 		foreach($savedProducts as $savedProduct) {
 			$productDataDecoded = (array)json_decode($savedProduct['data']);
 
-			$catalog = defined(HTTPS_CATALOG) ? HTTPS_CATALOG : HTTP_CATALOG;
+			$catalog = $this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG;
 			$response_data = array("response_url" => $catalog . 'index.php?route=amazon/product/inbound');
 			$category_data = array('category' => (string)$savedProduct['category']);
 			$fields_data = array('fields' => (array)$productDataDecoded['fields']);

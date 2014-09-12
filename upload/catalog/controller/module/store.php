@@ -18,14 +18,18 @@ class ControllerModuleStore extends Controller {
 			
 			$this->data['text_store'] = $this->language->get('text_store');
 			
-			$this->data['store_id'] = $this->config->get('config_store_id');
+			$this->data['store_id'] = '';
 			
 			$this->data['stores'] = array();
 			
+			$this->load->model('setting/setting');
+			
+			$store = $this->model_setting_setting->getSetting('config', 0);
+
 			$this->data['stores'][] = array(
 				'store_id' => 0,
-				'name'     => $this->language->get('text_default'),
-				'url'      => HTTP_SERVER . 'index.php?route=common/home&session_id=' . $this->session->getId()
+				'name'     => $store['config_name'],
+				'url'      => $store['config_secure'] ? HTTPS_SERVER : HTTP_SERVER . 'index.php?route=common/home&session_id=' . $this->session->getId()
 			);
 			
 			$this->load->model('setting/store');
@@ -33,10 +37,11 @@ class ControllerModuleStore extends Controller {
 			$results = $this->model_setting_store->getStores();
 			
 			foreach ($results as $result) {
+				$store = $this->model_setting_setting->getSetting('config', $result['store_id']);
 				$this->data['stores'][] = array(
 					'store_id' => $result['store_id'],
 					'name'     => $result['name'],
-					'url'      => $result['url'] . 'index.php?route=common/home&session_id=' . $this->session->getId()
+					'url'      => $store['config_secure'] ? $result['ssl'] : $result['url'] . 'index.php?route=common/home&session_id=' . $this->session->getId()
 				);
 			}
 	

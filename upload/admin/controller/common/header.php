@@ -3,7 +3,7 @@ class ControllerCommonHeader extends Controller {
 	protected function index() {
 		$this->data['title'] = $this->document->getTitle(); 
 
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+		if ($this->request->server['HTTPS']) {
 			$this->data['base'] = HTTPS_SERVER;
 		} else {
 			$this->data['base'] = HTTP_SERVER;
@@ -180,7 +180,7 @@ class ControllerCommonHeader extends Controller {
 			$this->data['return_status'] = $this->url->link('localisation/return_status', 'token=' . $this->session->data['token'], 'SSL');			
 			$this->data['shipping'] = $this->url->link('extension/shipping', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['setting'] = $this->url->link('setting/store', 'token=' . $this->session->data['token'], 'SSL');
-			$this->data['store'] = HTTP_CATALOG;
+			$this->data['store'] = $this->config->get('config_secure') ? HTTPS_CATALOG : HTTP_CATALOG;
 			$this->data['stock_status'] = $this->url->link('localisation/stock_status', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['tax_class'] = $this->url->link('localisation/tax_class', 'token=' . $this->session->data['token'], 'SSL');
 			$this->data['tax_rate'] = $this->url->link('localisation/tax_rate', 'token=' . $this->session->data['token'], 'SSL');
@@ -225,10 +225,13 @@ class ControllerCommonHeader extends Controller {
 
 			$results = $this->model_setting_store->getStores();
 
+			$this->load->model('setting/setting');
+
 			foreach ($results as $result) {
+				$store = $this->model_setting_setting->getSetting('config', $result['store_id']);
 				$this->data['stores'][] = array(
 					'name' => $result['name'],
-					'href' => $result['url']
+					'href' => $store['config_secure'] ? $result['ssl'] : $result['url']
 				);
 			}			
 		}

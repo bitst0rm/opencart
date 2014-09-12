@@ -7,7 +7,7 @@ class ControllerCommonFileManager extends Controller {
 
 		$this->data['title'] = $this->language->get('heading_title');
 
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+		if ($this->request->server['HTTPS']) {
 			$this->data['base'] = HTTPS_SERVER;
 		} else {
 			$this->data['base'] = HTTP_SERVER;
@@ -32,7 +32,7 @@ class ControllerCommonFileManager extends Controller {
 
 		$this->data['token'] = $this->session->data['token'];
 
-		$this->data['directory'] = HTTP_CATALOG . 'image/data/';
+		$this->data['directory'] = $this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG . 'image/data/';
 
 		$this->load->model('tool/image');
 

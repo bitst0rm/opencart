@@ -3,7 +3,7 @@ class ControllerCommonHeader extends Controller {
 	protected function index() {
 		$this->data['title'] = $this->document->getTitle();
 
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+		if ($this->request->server['HTTPS']) {
 			$server = $this->config->get('config_ssl');
 		} else {
 			$server = $this->config->get('config_url');
@@ -83,8 +83,11 @@ class ControllerCommonHeader extends Controller {
 
 			$stores = $this->model_setting_store->getStores();
 
+			$this->load->model('setting/setting');
+
 			foreach ($stores as $store) {
-				$this->data['stores'][] = $store['url'] . 'catalog/view/javascript/crossdomain.php?session_id=' . $this->session->getId();
+				$store_inf = $this->model_setting_setting->getSetting('config', $store['store_id']);
+				$this->data['stores'][] = $store_inf['config_secure'] ? $store['ssl'] : $store['url'] . 'catalog/view/javascript/crossdomain.php?session_id=' . $this->session->getId();
 			}
 		}
 

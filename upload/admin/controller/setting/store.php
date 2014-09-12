@@ -116,7 +116,7 @@ class ControllerSettingStore extends Controller {
 		$this->data['stores'][] = array(
 			'store_id' => 0,
 			'name'     => $this->config->get('config_name') . $this->language->get('text_default'),
-			'url'      => HTTP_CATALOG,
+			'url'      => $this->config->get('config_secure') ? HTTPS_CATALOG : HTTP_CATALOG,
 			'selected' => isset($this->request->post['selected']) && in_array(0, $this->request->post['selected']),
 			'action'   => $action
 		);
@@ -125,7 +125,11 @@ class ControllerSettingStore extends Controller {
 
 		$results = $this->model_setting_store->getStores();
 
+		$this->load->model('setting/setting');
+
 		foreach ($results as $result) {
+			$store = $this->model_setting_setting->getSetting('config', $result['store_id']);
+
 			$action = array();
 
 			$action[] = array(
@@ -136,7 +140,7 @@ class ControllerSettingStore extends Controller {
 			$this->data['stores'][] = array(
 				'store_id' => $result['store_id'],
 				'name'     => $result['name'],
-				'url'      => $result['url'],
+				'url'      => $store['config_secure'] ? $result['ssl'] : $result['url'],
 				'selected' => isset($this->request->post['selected']) && in_array($result['store_id'], $this->request->post['selected']),
 				'action'   => $action
 			);
@@ -984,7 +988,7 @@ class ControllerSettingStore extends Controller {
 	}
 
 	public function template() {
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+		if ($this->request->server['HTTPS']) {
 			$server = HTTPS_CATALOG;
 		} else {
 			$server = HTTP_CATALOG;

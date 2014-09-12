@@ -15,13 +15,7 @@ class ControllerModuleLanguage extends Controller {
 
 		$this->data['text_language'] = $this->language->get('text_language');
 
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
-			$connection = 'SSL';
-		} else {
-			$connection = 'NONSSL';
-		}
-
-		$this->data['action'] = $this->url->link('module/language', '', $connection);
+		$this->data['action'] = $this->url->link('module/language', '', 'SSL');
 
 		$this->data['language_code'] = $this->session->data['language'];
 
@@ -58,7 +52,7 @@ class ControllerModuleLanguage extends Controller {
 				$url = '&' . urldecode(http_build_query($data, '', '&'));
 			}	
 
-			$this->data['redirect'] = $this->url->link($route, $url, $connection);
+			$this->data['redirect'] = $this->url->link($route, $url, 'SSL');
 		}
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/language.tpl')) {

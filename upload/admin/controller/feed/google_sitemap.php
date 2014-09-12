@@ -66,7 +66,7 @@ class ControllerFeedGoogleSitemap extends Controller {
 			$this->data['google_sitemap_status'] = $this->config->get('google_sitemap_status');
 		}
 
-		$this->data['data_feed'] = HTTP_CATALOG . 'index.php?route=feed/google_sitemap';
+		$this->data['data_feed'] = $this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG . 'index.php?route=feed/google_sitemap';
 
 		$this->template = 'feed/google_sitemap.tpl';
 		$this->children = array(
