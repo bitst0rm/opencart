@@ -171,7 +171,7 @@ $_['lang_tab_ebay_catalog']         = 'eBay catalog';
 $_['lang_option_images']            = 'Variation images';
 $_['lang_option_images_grp']        = 'Choose option group';
 $_['lang_option_images_choice']     = 'Images';
-$_['lang_option_description']       = 'Variation images can be used to display a specific image when the user makes a selection of an option. You can only use one variation set for images but can have upto 12 images per variation. The default images are loaded from your option values (set in Catalog > Options)';
+$_['lang_option_description']       = 'Variation images can be used to display a specific image when the user makes a selection of an option. You can only use one variation set for images but can have up to 12 images per variation. The default images are loaded from your option values (set in Catalog > Options)';
 
 //Product catalog
 $_['lang_search_catalog']           = 'Search eBay catalog:';
