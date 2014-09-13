@@ -73,7 +73,12 @@ class ModelTotalCoupon extends Model {
 					}
 
 					$discount_total += $this->session->data['shipping_method']['cost'];				
-				}				
+				}
+
+				// If discount greater than total
+				if ($discount_total > $total) {
+					$discount_total = $total;
+				}
 
 				$total_data[] = array(
 					'code'       => 'coupon',
