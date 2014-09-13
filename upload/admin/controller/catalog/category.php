@@ -250,6 +250,7 @@ class ControllerCatalogCategory extends Controller {
 		$this->data['sort_name'] = $this->url->link('catalog/category', 'token=' . $this->session->data['token'] . '&sort=name' . $url, 'SSL');
 		$this->data['sort_sort_order'] = $this->url->link('catalog/category', 'token=' . $this->session->data['token'] . '&sort=sort_order' . $url, 'SSL');
 
+		$url = '';
 		$pagination = new Pagination();
 		$pagination->total = $category_total;
 		$pagination->page = $page;
