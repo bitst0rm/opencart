@@ -448,7 +448,7 @@ class ControllerAccountAddress extends Controller {
 		}
 
 		if (isset($this->request->post['country_id'])) {
-			$this->data['country_id'] = $this->request->post['country_id'];
+			$this->data['country_id'] = (int)$this->request->post['country_id'];
 		}  elseif (!empty($address_info)) {
 			$this->data['country_id'] = $address_info['country_id'];
 		} else {
@@ -456,7 +456,7 @@ class ControllerAccountAddress extends Controller {
 		}
 
 		if (isset($this->request->post['zone_id'])) {
-			$this->data['zone_id'] = $this->request->post['zone_id'];
+			$this->data['zone_id'] = (int)$this->request->post['zone_id'];
 		}  elseif (!empty($address_info)) {
 			$this->data['zone_id'] = $address_info['zone_id'];
 		} else {

@@ -221,7 +221,7 @@ class ControllerAffiliateEdit extends Controller {
 		}
 
 		if (isset($this->request->post['country_id'])) {
-			$this->data['country_id'] = $this->request->post['country_id'];
+			$this->data['country_id'] = (int)$this->request->post['country_id'];
 		} elseif (!empty($affiliate_info)) {
 			$this->data['country_id'] = $affiliate_info['country_id'];			
 		} else {	
@@ -229,7 +229,7 @@ class ControllerAffiliateEdit extends Controller {
 		}
 
 		if (isset($this->request->post['zone_id'])) {
-			$this->data['zone_id'] = $this->request->post['zone_id'];
+			$this->data['zone_id'] = (int)$this->request->post['zone_id'];
 		} elseif (!empty($affiliate_info)) {
 			$this->data['zone_id'] = $affiliate_info['zone_id'];		
 		} else {
