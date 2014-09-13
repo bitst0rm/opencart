@@ -46,7 +46,9 @@ class ModelToolImage extends Model {
 				copy(DIR_IMAGE . $old_image, DIR_IMAGE . $new_image);
 			}
 		}
-		
+
+		$new_image = implode('/', array_map('rawurlencode', explode('/', $new_image)));
+
 		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
 			return $this->config->get('config_ssl') . 'image/' . $new_image;
 		} else {
