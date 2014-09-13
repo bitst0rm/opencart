@@ -29,7 +29,9 @@ class ModelToolImage extends Model {
 			$image->resize($width, $height);
 			$image->save(DIR_IMAGE . $new_image);
 		}
-	
+
+		$new_image = implode('/', array_map('rawurlencode', explode('/', $new_image)));
+
 		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
 			return HTTPS_CATALOG . 'image/' . $new_image;
 		} else {
