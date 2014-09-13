@@ -12,6 +12,7 @@ final class Action {
 		
 		foreach ($parts as $part) { 
 			$path .= $part;
+			$path = str_replace(chr(0), '', $path);
 			
 			if (is_dir(DIR_APPLICATION . 'controller/' . $path)) {
 				$path .= '/';
