@@ -119,7 +119,7 @@
           <div class="return-captcha"><b><?php echo $entry_captcha; ?></b><br />
             <input type="text" name="captcha" value="<?php echo $captcha; ?>" />
             <br />
-            <img src="index.php?route=account/return/captcha" alt="" />
+            <img src="index.php?route=account/return/captcha" alt="" id="captcha" />
             <?php if ($error_captcha) { ?>
             <span class="error"><?php echo $error_captcha; ?></span>
             <?php } ?>
@@ -153,7 +153,7 @@
 $(document).ready(function() {
 	$('.date').datepicker({dateFormat: 'yy-mm-dd'});
 });
-//--></script> 
+//--></script>
 <script type="text/javascript"><!--
 $(document).ready(function() {
 	$('.colorbox').colorbox({
@@ -161,5 +161,12 @@ $(document).ready(function() {
 		height: 480
 	});
 });
-//--></script> 
+//--></script>
+<script type="text/javascript"><!--
+$(document).ready(function() {
+	$('#captcha').click(function(){ 
+		$(this).attr('src', '<?php echo "index.php?route=account/return/captcha" ?>&time=' + (new Date).getTime());
+	});
+});
+//--></script>
 <?php echo $footer; ?>

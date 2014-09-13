@@ -51,7 +51,7 @@
     <b><?php echo $entry_captcha; ?></b><br />
     <input type="text" name="captcha" value="<?php echo $captcha; ?>" />
     <br />
-    <img src="index.php?route=information/contact/captcha" alt="" />
+    <img src="index.php?route=information/contact/captcha" alt="" id="captcha" />
     <?php if ($error_captcha) { ?>
     <span class="error"><?php echo $error_captcha; ?></span>
     <?php } ?>
@@ -61,4 +61,11 @@
     </div>
   </form>
   <?php echo $content_bottom; ?></div>
+<script type="text/javascript"><!--
+$(document).ready(function() {
+	$('#captcha').click(function(){ 
+		$(this).attr('src', '<?php echo "index.php?route=information/contact/captcha" ?>&time=' + (new Date).getTime());
+	});
+});
+//--></script>
 <?php echo $footer; ?>

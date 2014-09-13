@@ -513,5 +513,12 @@ $(document).ready(function() {
 	});
 	$('.time').timepicker({timeFormat: 'h:m'});
 });
-//--></script> 
+//--></script>
+<script type="text/javascript"><!--
+$(document).ready(function() {
+	$('#captcha').click(function(){ 
+		$(this).attr('src', '<?php echo "index.php?route=product/product/captcha" ?>&time=' + (new Date).getTime());
+	});
+});
+//--></script>
 <?php echo $footer; ?>
