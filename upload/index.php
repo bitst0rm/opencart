@@ -234,6 +234,12 @@ if (isset($request->get['route'])) {
 	$action = new Action('common/home');
 }
 
+// Fix path disclosure
+if (isset($request->get['route']) && preg_match('/(__construct|__get|__set)$/', $request->get['route'])) {
+	header('Location: index.php');
+	exit;
+}
+
 // Dispatch
 $controller->dispatch($action, new Action('error/not_found'));
 
