@@ -7,7 +7,14 @@ class Request {
 	public $server = array();
 
 	public function __construct() {
-		$_GET = $this->clean($_GET);
+		$_CGET = array();
+		foreach ($_GET as $k => $v) {
+			if (!is_array($v)) {
+				$_CGET[$k] = $v;
+			}
+		}
+
+		$_GET = $this->clean($_CGET);
 		$_POST = $this->clean($_POST);
 		$_REQUEST = $this->clean($_REQUEST);
 		$_COOKIE = $this->clean($_COOKIE);

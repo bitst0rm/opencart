@@ -38,7 +38,14 @@ if (ini_get('magic_quotes_gpc')) {
 		return $data;
 	}			
 
-	$_GET = clean($_GET);
+	$_CGET = array();
+	foreach ($_GET as $k => $v) {
+		if (!is_array($v)) {
+			$_CGET[$k] = $v;
+		}
+	}
+
+	$_GET = clean($_CGET);
 	$_POST = clean($_POST);
 	$_REQUEST = clean($_REQUEST);
 	$_COOKIE = clean($_COOKIE);
