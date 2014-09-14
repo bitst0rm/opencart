@@ -32,7 +32,7 @@ if (ini_get('magic_quotes_gpc')) {
 				$data[clean($key)] = clean($value);
 			}
 		} else {
-			$data = stripslashes($data);
+			$data = stripslashes(trim($data));
 		}
 
 		return $data;
