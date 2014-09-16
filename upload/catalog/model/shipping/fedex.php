@@ -167,7 +167,7 @@ class ModelShippingFedex extends Model {
 						$title = $this->language->get('text_' . $code);
 
 						if ($this->config->get('fedex_display_time')) {
-							$title .= ' (' . $this->language->get('text_eta') . ' ' . date($this->language->get('date_format_short') . ' ' . $this->language->get('time_format'), strtotime($rate_reply_detail->getElementsByTagName('DeliveryTimestamp')->item(0)->nodeValue)) . ')';
+							$title .= ' (' . $this->language->get('text_eta') . ' ' . date($this->language->get('date_format_short'), strtotime($rate_reply_detail->getElementsByTagName('DeliveryTimestamp')->item(0)->nodeValue)) . ')';
 						}
 
 						$total_net_charge = $rate_reply_detail->getElementsByTagName('RatedShipmentDetails')->item(0)->getElementsByTagName('ShipmentRateDetail')->item(0)->getElementsByTagName('TotalNetCharge')->item(0);
