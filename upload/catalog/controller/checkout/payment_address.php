@@ -167,11 +167,11 @@ class ControllerCheckoutPaymentAddress extends Controller {
 					unset($this->session->data['payment_methods']);
 				}
 			} else {
-				if ((utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
+				if (!isset($this->request->post['firstname']) || (utf8_strlen($this->request->post['firstname']) < 1) || (utf8_strlen($this->request->post['firstname']) > 32)) {
 					$json['error']['firstname'] = $this->language->get('error_firstname');
 				}
 
-				if ((utf8_strlen($this->request->post['lastname']) < 1) || (utf8_strlen($this->request->post['lastname']) > 32)) {
+				if (!isset($this->request->post['lastname']) || (utf8_strlen($this->request->post['lastname']) < 1) || (utf8_strlen($this->request->post['lastname']) > 32)) {
 					$json['error']['lastname'] = $this->language->get('error_lastname');
 				}
 
@@ -192,36 +192,36 @@ class ControllerCheckoutPaymentAddress extends Controller {
 					}						
 				}
 
-				if ((utf8_strlen($this->request->post['address_1']) < 3) || (utf8_strlen($this->request->post['address_1']) > 128)) {
+				if (!isset($this->request->post['address_1']) || (utf8_strlen($this->request->post['address_1']) < 3) || (utf8_strlen($this->request->post['address_1']) > 128)) {
 					$json['error']['address_1'] = $this->language->get('error_address_1');
 				}
 
-				if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 32)) {
+				if (!isset($this->request->post['city']) || (utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 32)) {
 					$json['error']['city'] = $this->language->get('error_city');
 				}
 
-				$this->load->model('localisation/country');
-
-				$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
-
-				if ($country_info) {
-					if ($country_info['postcode_required'] && (utf8_strlen($this->request->post['postcode']) < 2) || (utf8_strlen($this->request->post['postcode']) > 10)) {
-						$json['error']['postcode'] = $this->language->get('error_postcode');
-					}
-
-					// VAT Validation
-					$this->load->helper('vat');
-
-					if ($this->config->get('config_vat') && !empty($this->request->post['tax_id']) && (vat_validation($country_info['iso_code_2'], $this->request->post['tax_id']) == 'invalid')) {
-						$json['error']['tax_id'] = $this->language->get('error_vat');
-					}						
-				}
-
-				if ($this->request->post['country_id'] == '') {
+				if (!isset($this->request->post['country_id']) || $this->request->post['country_id'] == '' || !is_numeric($this->request->post['country_id'])) {
 					$json['error']['country'] = $this->language->get('error_country');
+				} else {
+					$this->load->model('localisation/country');
+
+					$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
+
+					if ($country_info) {
+						if ($country_info['postcode_required'] && (!isset($this->request->post['postcode']) || (utf8_strlen($this->request->post['postcode']) < 2) || (utf8_strlen($this->request->post['postcode']) > 10))) {
+							$json['error']['postcode'] = $this->language->get('error_postcode');
+						}
+
+						// VAT Validation
+						$this->load->helper('vat');
+
+						if ($this->config->get('config_vat') && !empty($this->request->post['tax_id']) && (vat_validation($country_info['iso_code_2'], $this->request->post['tax_id']) == 'invalid')) {
+							$json['error']['tax_id'] = $this->language->get('error_vat');
+						}						
+					}
 				}
 
-				if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '') {
+				if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '' || !is_numeric($this->request->post['zone_id'])) {
 					$json['error']['zone'] = $this->language->get('error_zone');
 				}
 

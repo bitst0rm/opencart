@@ -1890,14 +1890,18 @@ class ControllerPaymentPPExpress extends Controller {
 	}
 
 	protected function validateCoupon() {
-		$this->load->model('checkout/coupon');
-
-		$coupon_info = $this->model_checkout_coupon->getCoupon($this->request->post['coupon']);
-
 		$error = '';
 
-		if (!$coupon_info) {
+		if (!isset($this->request->post['coupon'])) {
 			$error = $this->language->get('error_coupon');
+		} else {
+			$this->load->model('checkout/coupon');
+
+			$coupon_info = $this->model_checkout_coupon->getCoupon($this->request->post['coupon']);
+
+			if (!$coupon_info) {
+				$error = $this->language->get('error_coupon');
+			}
 		}
 
 		if (!$error) {
@@ -1909,14 +1913,18 @@ class ControllerPaymentPPExpress extends Controller {
 	}
 
 	protected function validateVoucher() {
-		$this->load->model('checkout/voucher');
-
-		$voucher_info = $this->model_checkout_voucher->getVoucher($this->request->post['voucher']);
-
 		$error = '';
 
-		if (!$voucher_info) {
+		if (!isset($this->request->post['voucher'])) {
 			$error = $this->language->get('error_voucher');
+		} else {
+			$this->load->model('checkout/voucher');
+
+			$voucher_info = $this->model_checkout_voucher->getVoucher($this->request->post['voucher']);
+
+			if (!$voucher_info) {
+				$error = $this->language->get('error_voucher');
+			}
 		}
 
 		if (!$error) {
@@ -1942,14 +1950,14 @@ class ControllerPaymentPPExpress extends Controller {
 
 		if (empty($this->request->post['reward'])) {
 			$error = $this->language->get('error_reward');
-		}
+		} else {
+			if ($this->request->post['reward'] > $points) {
+				$error = sprintf($this->language->get('error_points'), $this->request->post['reward']);
+			}
 
-		if ($this->request->post['reward'] > $points) {
-			$error = sprintf($this->language->get('error_points'), $this->request->post['reward']);
-		}
-
-		if ($this->request->post['reward'] > $points_total) {
-			$error = sprintf($this->language->get('error_maximum'), $points_total);
+			if ($this->request->post['reward'] > $points_total) {
+				$error = sprintf($this->language->get('error_maximum'), $points_total);
+			}
 		}
 
 		if (!$error) {

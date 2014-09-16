@@ -116,14 +116,14 @@ class ControllerAffiliateLogin extends Controller {
 	}
 
 	protected function validate() {
-		if (!$this->affiliate->login($this->request->post['email'], $this->request->post['password'])) {
+		if (empty($this->request->post['email']) || empty($this->request->post['password']) || !$this->affiliate->login($this->request->post['email'], $this->request->post['password'])) {
 			$this->error['warning'] = $this->language->get('error_login');
-		}
+		} else {
+			$affiliate_info = $this->model_affiliate_affiliate->getAffiliateByEmail($this->request->post['email']);
 
-		$affiliate_info = $this->model_affiliate_affiliate->getAffiliateByEmail($this->request->post['email']);
-
-		if ($affiliate_info && !$affiliate_info['approved']) {
-			$this->error['warning'] = $this->language->get('error_approved');
+			if ($affiliate_info && !$affiliate_info['approved']) {
+				$this->error['warning'] = $this->language->get('error_approved');
+			}
 		}
 
 		if (!$this->error) {

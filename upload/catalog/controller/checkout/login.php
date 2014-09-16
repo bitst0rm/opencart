@@ -51,17 +51,17 @@ class ControllerCheckoutLogin extends Controller {
 		}	
 		
 		if (!$json) {
-			if (!$this->customer->login($this->request->post['email'], $this->request->post['password'])) {
+			if (empty($this->request->post['email']) || empty($this->request->post['password']) || !$this->customer->login($this->request->post['email'], $this->request->post['password'])) {
 				$json['error']['warning'] = $this->language->get('error_login');
-			}
+			} else {
+				$this->load->model('account/customer');
 		
-			$this->load->model('account/customer');
-		
-			$customer_info = $this->model_account_customer->getCustomerByEmail($this->request->post['email']);
+				$customer_info = $this->model_account_customer->getCustomerByEmail($this->request->post['email']);
 			
-			if ($customer_info && !$customer_info['approved']) {
-				$json['error']['warning'] = $this->language->get('error_approved');
-			}		
+				if ($customer_info && !$customer_info['approved']) {
+					$json['error']['warning'] = $this->language->get('error_approved');
+				}
+			}	
 		}
 		
 		if (!$json) {

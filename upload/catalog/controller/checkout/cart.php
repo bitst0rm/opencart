@@ -471,12 +471,16 @@ class ControllerCheckoutCart extends Controller {
 	}
 
 	protected function validateCoupon() {
-		$this->load->model('checkout/coupon');
-
-		$coupon_info = $this->model_checkout_coupon->getCoupon($this->request->post['coupon']);			
-
-		if (!$coupon_info) {			
+		if (!isset($this->request->post['coupon'])) {
 			$this->error['warning'] = $this->language->get('error_coupon');
+		} else {
+			$this->load->model('checkout/coupon');
+
+			$coupon_info = $this->model_checkout_coupon->getCoupon($this->request->post['coupon']);			
+
+			if (!$coupon_info) {			
+				$this->error['warning'] = $this->language->get('error_coupon');
+			}
 		}
 
 		if (!$this->error) {
@@ -487,12 +491,16 @@ class ControllerCheckoutCart extends Controller {
 	}
 
 	protected function validateVoucher() {
-		$this->load->model('checkout/voucher');
-
-		$voucher_info = $this->model_checkout_voucher->getVoucher($this->request->post['voucher']);			
-
-		if (!$voucher_info) {			
+		if (!isset($this->request->post['voucher'])) {
 			$this->error['warning'] = $this->language->get('error_voucher');
+		} else {
+			$this->load->model('checkout/voucher');
+
+			$voucher_info = $this->model_checkout_voucher->getVoucher($this->request->post['voucher']);			
+
+			if (!$voucher_info) {			
+				$this->error['warning'] = $this->language->get('error_voucher');
+			}
 		}
 
 		if (!$this->error) {
@@ -503,26 +511,30 @@ class ControllerCheckoutCart extends Controller {
 	}
 
 	protected function validateReward() {
-		$points = $this->customer->getRewardPoints();
-
-		$points_total = 0;
-
-		foreach ($this->cart->getProducts() as $product) {
-			if ($product['points']) {
-				$points_total += $product['points'];
-			}
-		}	
-
-		if (empty($this->request->post['reward'])) {
+		if (!isset($this->request->post['reward'])) {
 			$this->error['warning'] = $this->language->get('error_reward');
-		}
+		} else {
+			$points = $this->customer->getRewardPoints();
 
-		if ($this->request->post['reward'] > $points) {
-			$this->error['warning'] = sprintf($this->language->get('error_points'), $this->request->post['reward']);
-		}
+			$points_total = 0;
 
-		if ($this->request->post['reward'] > $points_total) {
-			$this->error['warning'] = sprintf($this->language->get('error_maximum'), $points_total);
+			foreach ($this->cart->getProducts() as $product) {
+				if ($product['points']) {
+					$points_total += $product['points'];
+				}
+			}	
+
+			if (empty($this->request->post['reward'])) {
+				$this->error['warning'] = $this->language->get('error_reward');
+			}
+
+			if ($this->request->post['reward'] > $points) {
+				$this->error['warning'] = sprintf($this->language->get('error_points'), $this->request->post['reward']);
+			}
+
+			if ($this->request->post['reward'] > $points_total) {
+				$this->error['warning'] = sprintf($this->language->get('error_maximum'), $points_total);
+			}
 		}
 
 		if (!$this->error) {
@@ -674,20 +686,20 @@ class ControllerCheckoutCart extends Controller {
 			$json['error']['warning'] = sprintf($this->language->get('error_no_shipping'), $this->url->link('information/contact', '', 'SSL'));				
 		}				
 
-		if ($this->request->post['country_id'] == '') {
+		if (!isset($this->request->post['country_id']) || $this->request->post['country_id'] == '' || !is_numeric($this->request->post['country_id'])) {
 			$json['error']['country'] = $this->language->get('error_country');
+		} else {
+			$this->load->model('localisation/country');
+
+			$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
+
+			if ($country_info && $country_info['postcode_required'] && (!isset($this->request->post['postcode']) || (utf8_strlen($this->request->post['postcode']) < 2) || (utf8_strlen($this->request->post['postcode']) > 10))) {
+				$json['error']['postcode'] = $this->language->get('error_postcode');
+			}
 		}
 
-		if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '') {
+		if (!isset($this->request->post['zone_id']) || $this->request->post['zone_id'] == '' || !is_numeric($this->request->post['zone_id'])) {
 			$json['error']['zone'] = $this->language->get('error_zone');
-		}
-
-		$this->load->model('localisation/country');
-
-		$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
-
-		if ($country_info && $country_info['postcode_required'] && (utf8_strlen($this->request->post['postcode']) < 2) || (utf8_strlen($this->request->post['postcode']) > 10)) {
-			$json['error']['postcode'] = $this->language->get('error_postcode');
 		}
 
 		if (!$json) {		
